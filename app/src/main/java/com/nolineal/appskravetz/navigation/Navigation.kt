@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nolineal.appskravetz.data.AppData
 import com.nolineal.appskravetz.screens.DashboardScreen
+import com.nolineal.appskravetz.screens.ForgotPasswordScreen
 import com.nolineal.appskravetz.screens.LoginScreen
 import com.nolineal.appskravetz.screens.RegisterScreen
 
@@ -20,6 +21,7 @@ fun NavigationStack(
         composable(Routes.LoginScreen) { LoginScreen(navController, appData) }
         composable(Routes.RegisterScreen) { RegisterScreen(navController, appData) }
         composable(Routes.DashboardScreen) { DashboardScreen(navController, appData) }
+        composable(Routes.ForgotPasswordScreen) { ForgotPasswordScreen(navController, appData) }
     }
 }
 

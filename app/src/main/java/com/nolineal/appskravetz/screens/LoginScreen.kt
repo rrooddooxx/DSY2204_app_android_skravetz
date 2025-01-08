@@ -61,7 +61,7 @@ fun LoginScreen(
 
         val foundUser = appData.findUserByEmail(userEmail)
 
-        if (foundUser === null) {
+        if (foundUser == null) {
             isValidForm = LoginFormStates.INVALID
             return
         }

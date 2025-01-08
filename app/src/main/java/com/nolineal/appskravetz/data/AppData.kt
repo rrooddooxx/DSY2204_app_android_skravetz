@@ -3,7 +3,18 @@ package com.nolineal.appskravetz.data
 import com.nolineal.appskravetz.data.entities.User
 
 class AppData {
-    val registeredUsers = mutableListOf<User>()
+    val registeredUsers = mutableListOf<User>().apply {
+        addAll(
+            listOf(
+                User("Sebastian", "Kravetz", "Lagneto", "sk@home.org", "Pass1234"),
+                User("Pedro", "Gonzalez", "Empanadas", "pg@chile.cl", "Chile123"),
+                User("Maria", "Rodriguez", "Valparaiso", "mr@chile.cl", "Santiago456"),
+                User("Juan", "Perez", "Atacama", "jp@chile.cl", "Desert789"),
+                User("Ana", "Lopez", "Concepcion", "al@chile.cl", "Biobio012")
+            )
+        )
+    }
+
     val currentUser = mutableListOf<User>()
 
     fun saveUsers(users: List<User>) {
@@ -18,7 +29,7 @@ class AppData {
         return registeredUsers.toList()
     }
 
-    fun findUserByEmail(email: String): User? {
+    fun findUserByEmail(email: String): User {
         return registeredUsers.stream().filter { user ->
             user.email == email
         }.findFirst().orElse(null)
