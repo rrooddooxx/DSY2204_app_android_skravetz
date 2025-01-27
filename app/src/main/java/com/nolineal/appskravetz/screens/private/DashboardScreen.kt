@@ -1,4 +1,4 @@
-package com.nolineal.appskravetz.screens
+package com.nolineal.appskravetz.screens.private
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,20 +14,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.nolineal.appskravetz.data.AppData
 import com.nolineal.appskravetz.navigation.Routes
+import com.nolineal.appskravetz.viewmodel.SharedAuthViewModel
 
 @Composable
 fun DashboardScreen(
     navigation: NavHostController,
-    appData: AppData
+    authViewModel: SharedAuthViewModel
 ) {
-    val currentUser = appData.getCurrentUser()
+    val currentUser = authViewModel.userState.collectAsStateWithLifecycle().value.currentUser
+    val userData = currentUser.userData
 
     fun logOutUser() {
         navigation.navigate(route = Routes.LoginScreen)
-        return appData.removeCurrentUser()
+        return authViewModel.logOut()
     }
 
     Column(
@@ -38,15 +40,15 @@ fun DashboardScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (currentUser === null) {
+        if (currentUser.userData === null) {
             return
         }
 
         Text(
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
-            text = "¡Bienvenido, ${currentUser.firstName} ${currentUser.lastNameFather}! \n" +
-                    "Tu correo es ${currentUser.email}"
+            text = "¡Bienvenido, ${userData?.firstName} ${userData?.lastNameFather}! \n" +
+                    "Tu correo es ${userData?.email}"
         )
         Spacer(modifier = Modifier.padding(16.dp))
 

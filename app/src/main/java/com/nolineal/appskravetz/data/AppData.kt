@@ -1,6 +1,6 @@
 package com.nolineal.appskravetz.data
 
-import com.nolineal.appskravetz.data.entities.User
+import com.nolineal.appskravetz.domain.User
 
 class AppData {
     val registeredUsers = mutableListOf<User>().apply {
