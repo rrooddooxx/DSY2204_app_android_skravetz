@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.nolineal.appskravetz.domain.User
 import com.nolineal.appskravetz.navigation.Routes
 import com.nolineal.appskravetz.viewmodel.SharedAuthViewModel
 
@@ -44,18 +43,16 @@ fun ForgotPasswordScreen(
 ) {
     val authstate by authViewModel.authState.observeAsState()
     var userEmail by remember { mutableStateOf("") }
-    var foundUser by remember { mutableStateOf<User?>(null) }
     var formState by remember { mutableStateOf(ForgotPasswordFormState.INITIAL) }
-    var newPassword by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    var passwordMatchError by remember { mutableStateOf(false) }
 
 
     fun onSubmitHandler() {
 
         if (formState == ForgotPasswordFormState.INITIAL) {
-            Log.i("onSubmitHandler", "Checkeando usuario...")
+            Log.i("onSubmitHandler", "Iniciando envío de correo...")
             val cleanedEmail = userEmail.trim().lowercase()
+            authViewModel.updateUserPassword(cleanedEmail)
+            formState = ForgotPasswordFormState.SUCCESS
         }
 
 
@@ -117,7 +114,7 @@ fun ForgotPasswordScreen(
                 }
 
             }) {
-                Text(text = if (formState == ForgotPasswordFormState.INITIAL) "Buscar Usuario" else "Cambiar Contraseña")
+                Text(text = "Enviar correo para reestablecer contraseña")
             }
         }
 

@@ -9,14 +9,14 @@ fun generateHeadingText(state: ForgotPasswordFormState): String {
         ForgotPasswordFormState.ERROR -> {
             "Ha ocurrido un error, inténtalo nuevamente"
         }
-        
+
 
         ForgotPasswordFormState.NO_EMAIL_GIVEN -> {
             "Debes proporcionar un correo electrónico"
         }
 
         ForgotPasswordFormState.SUCCESS -> {
-            "Contraseña cambiada con éxito! Haz click en el botón para volver a autenticarte con tu nueva contraseña."
+            "Hemos enviado exitosamente las instrucciones para el reestablecimiento de contraseña al correo que has ingresado. Por favor, revisa tu bandeja de entrada y luego realiza login con tus nuevas credenciales!"
         }
     }
 }

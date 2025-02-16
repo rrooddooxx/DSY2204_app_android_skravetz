@@ -30,7 +30,6 @@ class SharedAuthViewModel : ViewModel() {
         try {
             firestore.collection(FIREBASE_USER_COLLECTION).document(uid).get()
                 .addOnSuccessListener { doc ->
-                    Log.d("SharedAuthViewModel", "getUserDataByUid: $doc")
                     if (doc.exists()) {
                         Log.d("firstName", doc["firstName"].toString())
                         _authState.postValue(
@@ -47,10 +46,10 @@ class SharedAuthViewModel : ViewModel() {
                                 loggedUser = true
                             )
                         )
-                    }
+                    } else throw AuthViewModelException("No existe data usuario uid $uid")
                 }
         } catch (e: Exception) {
-            val errorMsg = "Failed getting user data by uid: ${e.message}"
+            val errorMsg = "getUserDataByUid: Error obteniendo data usuario x uid: ${e.message}"
             Log.e("SharedAuthViewModel", errorMsg)
             throw AuthViewModelException(errorMsg)
 
@@ -62,17 +61,20 @@ class SharedAuthViewModel : ViewModel() {
             Log.d("registerNewUser", newUser.toString())
             auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
                 .addOnSuccessListener { doc ->
-                    Log.i("SharedAuthViewModel", "Success register new user")
+                    Log.i(
+                        "SharedAuthViewModel",
+                        "registerNewUser: Éxito registrando nuevo usuario!"
+                    )
                     registerNewUserData(newUser, doc?.user?.uid!!)
 
                 }
                 .addOnFailureListener {
-                    val errorMsg = "Failed registering new user"
+                    val errorMsg = "registerNewUser: Error registrando nuevo usuario"
                     Log.e("SharedAuthViewModel", errorMsg)
                     throw AuthViewModelException(errorMsg)
                 }
         } catch (e: Exception) {
-            val errorMsg = "Failed registering new user: ${e.message}"
+            val errorMsg = "registerNewUser: Error registrando nuevo usuario: ${e.message}"
             Log.e("SharedAuthViewModel", errorMsg)
 //            throw AuthViewModelException(errorMsg)
         }
@@ -93,11 +95,14 @@ class SharedAuthViewModel : ViewModel() {
                     newUserData
                 )
                 .addOnSuccessListener {
-                    Log.i("SharedAuthViewModel", "Success registering new user data")
+                    Log.i(
+                        "SharedAuthViewModel",
+                        "registerNewUserData: Éxito registrando data nuevo usuario"
+                    )
                     getUserDataByUid(auth.currentUser?.uid!!)
                 }
                 .addOnFailureListener {
-                    val errorMsg = "Failed registering new user data"
+                    val errorMsg = "registerNewUserData: Error registrando data nuevo usuario"
                     Log.e("SharedAuthViewModel", errorMsg)
                     throw AuthViewModelException(errorMsg)
                 }
@@ -112,14 +117,13 @@ class SharedAuthViewModel : ViewModel() {
     fun login(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener { user ->
-                Log.i("SharedAuthViewModel", "Success login!!")
-                Log.i("login, uid:", user?.user?.uid.toString())
+                Log.i("SharedAuthViewModel", "login: Éxito en login!!")
                 if (user?.user?.uid != null) {
                     getUserDataByUid(user.user?.uid.toString())
                 }
             }
             .addOnFailureListener {
-                val errorMsg = "Failed login"
+                val errorMsg = "login: Error realizando login"
                 Log.e("SharedAuthViewModel", errorMsg)
                 throw AuthViewModelException(errorMsg)
             }
@@ -127,15 +131,16 @@ class SharedAuthViewModel : ViewModel() {
 
 
     fun updateUserPassword(email: String) {
+        Log.i("updateUserPassword", "Enviando correo...")
         auth.setLanguageCode("es")
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.i("SharedAuthViewModel", "Email sent.")
+                    Log.i("SharedAuthViewModel", "updateUserPassword: Correo enviado!")
                 }
             }
             .addOnFailureListener {
-                val errorMsg = "Failed sending email"
+                val errorMsg = "updateUserPassword: Error enviando correo de reset password"
                 Log.e("SharedAuthViewModel", errorMsg)
                 throw AuthViewModelException(errorMsg)
             }
