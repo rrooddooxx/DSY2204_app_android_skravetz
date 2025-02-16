@@ -1,12 +1,14 @@
 package com.nolineal.appskravetz.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.nolineal.appskravetz.screens.LoadingScreen
 import com.nolineal.appskravetz.screens.private.DashboardScreen
 import com.nolineal.appskravetz.screens.public.ForgotPassword.ForgotPasswordScreen
 import com.nolineal.appskravetz.screens.public.LoginScreen
@@ -21,24 +23,31 @@ fun NavigationStack(
 ) {
     val isLoggedUser =
         authViewModel.authState.observeAsState().value?.loggedUser
+    val isLoading by authViewModel.isLoadingState.observeAsState()
 
-    NavHost(
-        navController = navController,
-        startDestination = if (isLoggedUser != null && isLoggedUser) Routes.DashboardScreen else Routes.LoginScreen
-    ) {
-        // stack "public" (no necesita auth)
-        composable(Routes.LoginScreen) { LoginScreen(navController, authViewModel) }
-        composable(Routes.RegisterScreen) { RegisterScreen(navController, authViewModel) }
-        composable(Routes.ForgotPasswordScreen) {
-            ForgotPasswordScreen(
-                navController,
-                authViewModel
-            )
+    if (isLoading == true) {
+        LoadingScreen()
+    } else {
+        NavHost(
+            navController = navController,
+            startDestination = if (isLoggedUser != null && isLoggedUser) Routes.DashboardScreen else Routes.LoginScreen
+        ) {
+            // stack "public" (no necesita auth)
+            composable(Routes.LoginScreen) { LoginScreen(navController, authViewModel) }
+            composable(Routes.RegisterScreen) { RegisterScreen(navController, authViewModel) }
+            composable(Routes.ForgotPasswordScreen) {
+                ForgotPasswordScreen(
+                    navController,
+                    authViewModel
+                )
+            }
+
+            // stack "private" (necesita auth)
+            composable(Routes.DashboardScreen) { DashboardScreen(navController, authViewModel) }
         }
-
-        // stack "private" (necesita auth)
-        composable(Routes.DashboardScreen) { DashboardScreen(navController, authViewModel) }
     }
+
+
 }
 
 @Composable

@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -44,14 +45,20 @@ fun ForgotPasswordScreen(
     val authstate by authViewModel.authState.observeAsState()
     var userEmail by remember { mutableStateOf("") }
     var formState by remember { mutableStateOf(ForgotPasswordFormState.INITIAL) }
+    val isResetSuccess by authViewModel.isPasswordResetSuccess.observeAsState()
 
+    LaunchedEffect(Unit) {
+        if (isResetSuccess == true) {
+            formState = ForgotPasswordFormState.SUCCESS
+        }
+    }
 
     fun onSubmitHandler() {
 
         if (formState == ForgotPasswordFormState.INITIAL) {
             Log.i("onSubmitHandler", "Iniciando envío de correo...")
             val cleanedEmail = userEmail.trim().lowercase()
-            authViewModel.updateUserPassword(cleanedEmail)
+            authViewModel.resetUserPassword(cleanedEmail)
             formState = ForgotPasswordFormState.SUCCESS
         }
 
@@ -121,6 +128,7 @@ fun ForgotPasswordScreen(
         if (formState == ForgotPasswordFormState.SUCCESS) {
             Button(onClick = {
                 navigation.navigate(Routes.LoginScreen)
+                authViewModel.resetStatePasswordSuccess()
             }) {
                 Text(text = "Ir a realizar login")
             }

@@ -15,7 +15,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -27,16 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.nolineal.appskravetz.domain.LoginFormStates
 import com.nolineal.appskravetz.navigation.Routes
 import com.nolineal.appskravetz.ui.AppLogo
 import com.nolineal.appskravetz.viewmodel.SharedAuthViewModel
 
-enum class LoginFormStates(val value: String) {
-    INITIAL("INITIAL"),
-    EMPTY("EMPTY"),
-    VALID("VALID"),
-    INVALID("INVALID")
-}
 
 @Composable
 fun LoginScreen(
@@ -44,8 +41,15 @@ fun LoginScreen(
     authViewModel: SharedAuthViewModel
 ) {
     var userEmail by rememberSaveable { mutableStateOf("") }
-    var isValidForm by rememberSaveable { mutableStateOf(LoginFormStates.INITIAL) }
+    val formState by authViewModel.loginFormState.observeAsState()
     var password by rememberSaveable { mutableStateOf("") }
+
+    LaunchedEffect(formState) {
+        if (formState == LoginFormStates.SUCCESS) {
+            navigation.navigate(route = Routes.DashboardScreen)
+            authViewModel.setLoadingState(false)
+        }
+    }
 
     fun navigateToRegister() {
         navigation.navigate(route = Routes.RegisterScreen)
@@ -58,17 +62,15 @@ fun LoginScreen(
     fun doLogIn() {
         try {
             if (userEmail.isEmpty() || password.isEmpty()) {
-                isValidForm = LoginFormStates.EMPTY
+                authViewModel.setLoginFormState(LoginFormStates.EMPTY)
                 return
             }
 
             authViewModel.login(userEmail, password)
             Log.i("logIn", "Login successful for user $userEmail")
-            isValidForm = LoginFormStates.VALID
-            return navigation.navigate(route = Routes.DashboardScreen)
         } catch (e: Exception) {
             Log.e("LoginScreen", "Error: ${e.message}")
-            isValidForm = LoginFormStates.INVALID
+            authViewModel.setLoginFormState(LoginFormStates.INVALID)
         }
     }
 
@@ -89,7 +91,7 @@ fun LoginScreen(
             onValueChange = { value ->
                 run {
                     if (value.isNotEmpty()) {
-                        isValidForm = LoginFormStates.INITIAL
+                        authViewModel.setLoginFormState(LoginFormStates.INITIAL)
                         userEmail = value
                     }
                     userEmail = value
@@ -106,7 +108,7 @@ fun LoginScreen(
             onValueChange = { value ->
                 run {
                     if (value.isNotEmpty()) {
-                        isValidForm = LoginFormStates.INITIAL
+                        authViewModel.setLoginFormState(LoginFormStates.INITIAL)
                         password = value
                     }
                     password = value
@@ -120,9 +122,9 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (isValidForm == LoginFormStates.INVALID || isValidForm == LoginFormStates.EMPTY) {
+        if (formState == LoginFormStates.INVALID || formState == LoginFormStates.EMPTY || formState == LoginFormStates.ERROR) {
             val msg =
-                if (isValidForm == LoginFormStates.INVALID) "Lo sentimos, tus credenciales son inválidas. Intenta nuevamente." else "Por favor, ingresa tus datos"
+                if (formState == LoginFormStates.INVALID || formState == LoginFormStates.ERROR) "Lo sentimos, tus credenciales son inválidas. Intenta nuevamente." else "Por favor, ingresa tus datos"
             Text(
                 text = msg,
                 textAlign = TextAlign.Center,
