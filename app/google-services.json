@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "778611226802",
+    "project_id": "android-calc-honorarios",
+    "storage_bucket": "android-calc-honorarios.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778611226802:android:855ab7d0047525faac31ab",
+        "android_client_info": {
+          "package_name": "com.nolineal.appskravetz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4KHsVvwVDvUHoW8uBicLZ3IPqSNNfXmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

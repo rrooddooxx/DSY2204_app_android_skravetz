@@ -1,7 +1,7 @@
 package com.nolineal.appskravetz.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,11 +20,11 @@ fun NavigationStack(
     authViewModel: SharedAuthViewModel,
 ) {
     val isLoggedUser =
-        authViewModel.userState.collectAsStateWithLifecycle().value.currentUser.isLogged
+        authViewModel.authState.observeAsState().value?.loggedUser
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedUser) Routes.DashboardScreen else Routes.LoginScreen
+        startDestination = if (isLoggedUser != null && isLoggedUser) Routes.DashboardScreen else Routes.LoginScreen
     ) {
         // stack "public" (no necesita auth)
         composable(Routes.LoginScreen) { LoginScreen(navController, authViewModel) }

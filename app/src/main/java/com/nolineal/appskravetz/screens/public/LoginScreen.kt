@@ -56,27 +56,20 @@ fun LoginScreen(
     }
 
     fun doLogIn() {
-        if (userEmail.isEmpty() || password.isEmpty()) {
-            isValidForm = LoginFormStates.EMPTY
-            return
-        }
+        try {
+            if (userEmail.isEmpty() || password.isEmpty()) {
+                isValidForm = LoginFormStates.EMPTY
+                return
+            }
 
-        val foundUser = authViewModel.findUserByEmail(userEmail)
-        Log.i("foundUser", foundUser.toString())
-
-        if (foundUser == null) {
-            isValidForm = LoginFormStates.INVALID
-            return
-        }
-
-        if (foundUser.password == password) {
-            Log.i("logIn", "foundUser: $foundUser")
+            authViewModel.login(userEmail, password)
+            Log.i("logIn", "Login successful for user $userEmail")
             isValidForm = LoginFormStates.VALID
-            authViewModel.setCurrentUser(foundUser, true)
             return navigation.navigate(route = Routes.DashboardScreen)
+        } catch (e: Exception) {
+            Log.e("LoginScreen", "Error: ${e.message}")
+            isValidForm = LoginFormStates.INVALID
         }
-
-
     }
 
     Column(

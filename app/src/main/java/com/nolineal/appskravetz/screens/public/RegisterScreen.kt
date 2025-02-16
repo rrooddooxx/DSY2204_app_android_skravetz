@@ -26,7 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.nolineal.appskravetz.domain.User
+import com.nolineal.appskravetz.domain.RegisterUserDto
 import com.nolineal.appskravetz.navigation.Routes
 import com.nolineal.appskravetz.viewmodel.SharedAuthViewModel
 
@@ -57,9 +57,8 @@ fun RegisterScreen(
             ) {
                 formState = RegisterScreenFormState.VALID
                 val newUser =
-                    User(name, fatherLastName, motherLastName, email, password)
+                    RegisterUserDto(name, fatherLastName, motherLastName, email, password)
                 authViewModel.registerNewUser(newUser)
-                authViewModel.setCurrentUser(toCurrentUser = newUser, isLogged = true)
                 navigation.navigate(route = Routes.DashboardScreen)
                 return
             }

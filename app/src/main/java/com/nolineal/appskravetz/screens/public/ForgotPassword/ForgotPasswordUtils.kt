@@ -9,14 +9,7 @@ fun generateHeadingText(state: ForgotPasswordFormState): String {
         ForgotPasswordFormState.ERROR -> {
             "Ha ocurrido un error, inténtalo nuevamente"
         }
-
-        ForgotPasswordFormState.USER_NOT_FOUND -> {
-            "Lo sentimos, usuario no ha sido encontrado, revisa el e-mail"
-        }
-
-        ForgotPasswordFormState.FOUND_USER -> {
-            "Ingresa tu nueva contraseña, asegúrate que coincida en ambos campos"
-        }
+        
 
         ForgotPasswordFormState.NO_EMAIL_GIVEN -> {
             "Debes proporcionar un correo electrónico"
