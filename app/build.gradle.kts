@@ -9,6 +9,7 @@ plugins {
 android {
     namespace = "com.nolineal.appskravetz"
     compileSdk = 34
+    testOptions.unitTests.isIncludeAndroidResources = true
 
     defaultConfig {
         applicationId = "com.nolineal.appskravetz"
@@ -58,19 +59,25 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.ui.graphics)
     implementation(libs.androidx.core.splashscreen)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
-    implementation(libs.firebase.firestore)
-    implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core.v520)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.shadows.framework)
+    testImplementation(libs.androidx.core)
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha01")
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation("org.mockito:mockito-core:5.11.0")
+    debugImplementation(libs.androidx.compose.ui.ui.test.manifest)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

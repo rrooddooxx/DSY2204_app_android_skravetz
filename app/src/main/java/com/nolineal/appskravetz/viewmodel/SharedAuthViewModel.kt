@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nolineal.appskravetz.domain.AuthViewModelException
@@ -12,10 +14,11 @@ import com.nolineal.appskravetz.domain.LoginFormStates
 import com.nolineal.appskravetz.domain.RegisterUserDto
 import com.nolineal.appskravetz.domain.User
 
-class SharedAuthViewModel : ViewModel() {
+class SharedAuthViewModel(
+    private val firestore: FirebaseFirestore = Firebase.firestore,
+    private val auth: FirebaseAuth = Firebase.auth
+) : ViewModel() {
 
-    private val firestore = Firebase.firestore
-    private val auth = Firebase.auth
     private val _authState = MutableLiveData(SharedAuthState())
     private val currentUser = auth.currentUser
     private val _isLoadingState = MutableLiveData(false)
@@ -32,7 +35,7 @@ class SharedAuthViewModel : ViewModel() {
         }
     }
 
-    private fun getUserDataByUid(uid: String) {
+    fun getUserDataByUid(uid: String) {
         Log.d("SharedAuthViewModel", "getUserDataByUid: $uid")
         try {
             _isLoadingState.postValue(true)

@@ -1,25 +1,42 @@
 [versions]
-agp = "8.7.3"
+agp = "8.8.0"
 coreSplashscreen = "1.0.1"
+coreTesting = "2.2.0"
 datastorePreferences = "1.1.1"
 firebaseBom = "33.9.0"
+junitJupiter = "5.11.4"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kotlinxCoroutinesTest = "1.7.1"
 kotlinxSerializationJson = "1.7.3"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 lifecycleViewmodelKtx = "2.8.7"
+mockitoCore = "5.14.2"
+mockitoCoreVersion = "5.2.0"
+mockitoInline = "4.0.0"
+mockitoInlineVersion = "5.2.0"
+mockitoMockitoCore = "5.11.0"
+mockitoMockitoInline = "5.11.0"
 navigationCompose = "2.8.5"
+robolectric = "4.11.1"
 runtimeLivedata = "1.7.8"
+shadowsFramework = "4.11.1"
 uiGraphics = "1.7.6"
+coreKtxVersion = "1.6.1"
+core = "1.5.0"
+uiTestJunit4Android = "1.7.8"
+uiTestManifest = "1.7.8"
 
 [libraries]
+androidx-compose-ui-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferences" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
@@ -46,8 +63,23 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-core-v5110 = { module = "org.mockito:mockito-core", version.ref = "mockitoMockitoCore" }
+mockito-core-v520 = { module = "org.mockito:mockito-core", version.ref = "mockitoCoreVersion" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-inline-v5110 = { module = "org.mockito:mockito-inline", version.ref = "mockitoMockitoInline" }
+mockito-inline-v520 = { module = "org.mockito:mockito-inline", version.ref = "mockitoInlineVersion" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+shadows-framework = { module = "org.robolectric:shadows-framework", version.ref = "shadowsFramework" }
 ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiGraphics" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
