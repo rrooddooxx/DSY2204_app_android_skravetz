@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         actionBar?.hide()
         setContent {
             AppSKravetzTheme {
-                AppNavigator()
+                AppNavigator(actionBar)
             }
         }
     }

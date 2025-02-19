@@ -5,4 +5,6 @@ object Routes {
     const val RegisterScreen = "register"
     const val ForgotPasswordScreen = "forgot-password"
     const val DashboardScreen = "dashboard"
+    const val WritingScreen = "writing"
+    const val ListeningScreen = "listening"
 }

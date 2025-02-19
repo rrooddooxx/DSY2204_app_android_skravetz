@@ -35,8 +35,15 @@ fun DashboardScreen(
     }
 
     fun logOutUser() {
-        navigation.navigate(route = Routes.LoginScreen)
-        return authViewModel.logOut()
+        authViewModel.logOut()
+    }
+
+    fun navigateToWriting() {
+        navigation.navigate(route = Routes.WritingScreen)
+    }
+
+    fun navigateToListening() {
+        navigation.navigate(route = Routes.ListeningScreen)
     }
 
     Column(
@@ -59,6 +66,18 @@ fun DashboardScreen(
                     "Tu correo es ${currentUser.email}"
         )
         Spacer(modifier = Modifier.padding(16.dp))
+
+        Button(
+            onClick = { navigateToWriting() }
+        ) {
+            Text("Escribir")
+        }
+
+        Button(
+            onClick = { navigateToListening() }
+        ) {
+            Text("Hablar")
+        }
 
         Button(
             onClick = { logOutUser() }

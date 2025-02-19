@@ -1,5 +1,6 @@
 package com.nolineal.appskravetz.navigation
 
+import android.app.ActionBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -10,50 +11,80 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nolineal.appskravetz.screens.LoadingScreen
 import com.nolineal.appskravetz.screens.private.DashboardScreen
+import com.nolineal.appskravetz.screens.private.ListeningScreen
+import com.nolineal.appskravetz.screens.private.WritingScreen
 import com.nolineal.appskravetz.screens.public.ForgotPassword.ForgotPasswordScreen
 import com.nolineal.appskravetz.screens.public.LoginScreen
 import com.nolineal.appskravetz.screens.public.RegisterScreen
 import com.nolineal.appskravetz.viewmodel.SharedAuthViewModel
 
-
 @Composable
-fun NavigationStack(
-    navController: NavHostController,
-    authViewModel: SharedAuthViewModel,
+fun AppNavigator(
+    actionBar: ActionBar?,
+    authViewModel: SharedAuthViewModel = viewModel()
 ) {
-    val isLoggedUser =
-        authViewModel.authState.observeAsState().value?.loggedUser
-    val isLoading by authViewModel.isLoadingState.observeAsState()
+    val loggedUser by authViewModel.authState.observeAsState()
+    val isLoading by authViewModel.isLoadingState.observeAsState(initial = false)
 
-    if (isLoading == true) {
+    if (isLoading) {
         LoadingScreen()
     } else {
-        NavHost(
-            navController = navController,
-            startDestination = if (isLoggedUser != null && isLoggedUser) Routes.DashboardScreen else Routes.LoginScreen
-        ) {
-            // stack "public" (no necesita auth)
-            composable(Routes.LoginScreen) { LoginScreen(navController, authViewModel) }
-            composable(Routes.RegisterScreen) { RegisterScreen(navController, authViewModel) }
-            composable(Routes.ForgotPasswordScreen) {
-                ForgotPasswordScreen(
-                    navController,
-                    authViewModel
-                )
-            }
-
-            // stack "private" (necesita auth)
-            composable(Routes.DashboardScreen) { DashboardScreen(navController, authViewModel) }
+        if (loggedUser?.loggedUser == true) {
+            actionBar?.hide()
+            AuthenticatedNavigation(authViewModel, actionBar)
+        } else {
+            actionBar?.show()
+            PublicNavigation(actionBar, authViewModel)
         }
     }
-
-
 }
 
 @Composable
-fun AppNavigator(
-    authViewModel: SharedAuthViewModel = viewModel()
+fun PublicNavigation(
+    actionBar: ActionBar?,
+    authViewModel: SharedAuthViewModel,
+    navController: NavHostController = rememberNavController()
 ) {
-    val navigationController = rememberNavController()
-    NavigationStack(navigationController, authViewModel)
+    NavHost(
+        navController = navController,
+        startDestination = Routes.LoginScreen
+    ) {
+        composable(Routes.LoginScreen) {
+            actionBar?.hide()
+            LoginScreen(navController, authViewModel)
+        }
+        composable(Routes.RegisterScreen) {
+            actionBar?.hide()
+            RegisterScreen(navController, authViewModel)
+        }
+        composable(Routes.ForgotPasswordScreen) {
+            actionBar?.hide()
+            ForgotPasswordScreen(navController, authViewModel)
+        }
+    }
+}
+
+@Composable
+fun AuthenticatedNavigation(
+    authViewModel: SharedAuthViewModel,
+    actionBar: ActionBar?,
+    navController: NavHostController = rememberNavController()
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Routes.DashboardScreen
+    ) {
+        composable(Routes.DashboardScreen) {
+            actionBar?.show()
+            DashboardScreen(navController, authViewModel)
+        }
+        composable(Routes.WritingScreen) {
+            actionBar?.show()
+            WritingScreen(navController, authViewModel)
+        }
+        composable(Routes.ListeningScreen) {
+            actionBar?.show()
+            ListeningScreen(navController, authViewModel)
+        }
+    }
 }
