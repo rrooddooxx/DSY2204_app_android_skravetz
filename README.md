@@ -6,7 +6,7 @@
 > Asignatura de Desarrollo Apps Móviles con Kotlin y Jetpack Compose
 
 ### Descripción
-Este proyecto es una aplicación móvil desarrollada con **Kotlin** y **Jetpack Compose** en **Android Studio**, orientada a personas freelance o independientes en Chile. La app está diseñada para facilitar la generación de boletas de honorarios y el cálculo tributario de manera accesible e intuitiva.
+Este proyecto es una aplicación móvil desarrollada con **Kotlin** y **Jetpack Compose** en **Android Studio**, orientada a la ayuda de personas con necesidades especiales de comunicación, por lo que actúa como ayuda a la hora de interactuar con otros, proveyendo los servicios de Voz-a-Texto y Texto-a-Voz.
 
 ### Funcionalidades principales
 - Registro de usuarios.
