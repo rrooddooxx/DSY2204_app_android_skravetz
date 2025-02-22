@@ -14,3 +14,9 @@
 .cxx
 local.properties
 /gradle/wrapper/caches
+/gradle/wrapper/dists
+/gradle/wrapper/wrapper
+/gradle/wrapper/.tmp
+/gradle/wrapper/daemon
+/gradle/wrapper/kotlin-profile
+/gradle/wrapper/native
