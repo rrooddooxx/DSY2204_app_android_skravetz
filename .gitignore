@@ -20,4 +20,6 @@ local.properties
 /gradle/wrapper/daemon/
 /gradle/wrapper/kotlin-profile/
 /gradle/wrapper/native/
-gradle/wrapper/dists/*
+gradle/wrapper/
+/gradle/wrapper/*
+/gradle/wrapper
