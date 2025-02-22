@@ -1,6 +1,6 @@
-# Proyecto Android: APP "CalcHonorarios"
+# Proyecto Android: App "Lazarillo"
 
-![LOGO_NO_TEXT.svg](LOGO_NO_TEXT.svg)
+![lazarillo_con_texto_header.svg](lazarillo_con_texto_header.svg)![laz.svg](LOGO_NO_TEXT.svg)
 
 > Desarrollada por Sebastián Kravetz
 > Asignatura de Desarrollo Apps Móviles con Kotlin y Jetpack Compose
@@ -9,10 +9,12 @@
 Este proyecto es una aplicación móvil desarrollada con **Kotlin** y **Jetpack Compose** en **Android Studio**, orientada a personas freelance o independientes en Chile. La app está diseñada para facilitar la generación de boletas de honorarios y el cálculo tributario de manera accesible e intuitiva.
 
 ### Funcionalidades principales
-- Cálculo de montos brutos y líquidos para boletas de honorarios.
-- Interfaz amigable y optimizada para dispositivos con API desde el nivel 24.
-- Explicaciones simples del proceso tributario para usuarios con poca experiencia financiera.
-- Almacenamiento seguro de datos del usuario.
+- Registro de usuarios.
+- Reestablecimiento de contraseña.
+- Texto-a-Voz: Permite al usuario convertir texto en voz, escribiendo el texto deseado en un input que luego es leído por el motor generativo. 
+- Voz-a-Text: Permite al usuario convertir voz en texto, dando la posibilidad al usuario de abrir su micrófono y recibir una transcripción del audio inmediata.
+- Persistencia de cada una de las solicitudes realizadas por un usuario.
+- Navegación fácil y dinámica.
 
 ---
 
