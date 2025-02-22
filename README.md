@@ -1,6 +1,6 @@
 # Proyecto Android: App "Lazarillo"
 
-![lazarillo_con_texto_header.svg](lazarillo_con_texto_header.svg)![laz.svg](LOGO_NO_TEXT.svg)
+![lazarillo_con_texto_header.svg](lazarillo_con_texto_header.svg)
 
 > Desarrollada por Sebastián Kravetz
 > Asignatura de Desarrollo Apps Móviles con Kotlin y Jetpack Compose
