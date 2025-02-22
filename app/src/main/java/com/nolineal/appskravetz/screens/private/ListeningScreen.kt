@@ -58,8 +58,9 @@ fun ListeningScreen(
     val currentUser = authViewModel.authState.observeAsState().value?.currentUser?.userData
     val authState = authViewModel.authState.observeAsState().value
 
+
     val context = LocalContext.current
-    var prompt by remember { mutableStateOf("Prompt") }
+    var prompt by remember { mutableStateOf("Tu prompt aquí...") }
 
     val speechRecognizerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -67,7 +68,8 @@ fun ListeningScreen(
             val spokenText =
                 result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
             if (spokenText != null) {
-                prompt = spokenText  // actualiza el prompt con el texto hablado
+                prompt = spokenText
+                authViewModel.registerPrompt(spokenText, "speech-to-text")
             } else {
                 Toast.makeText(
                     context,
@@ -87,10 +89,10 @@ fun ListeningScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Escuchando") },
+                title = { Text("Voz a Texto") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.Gray
+                    titleContentColor = Color.White
                 )
             )
         }
@@ -154,10 +156,10 @@ fun ListeningScreen(
                         Box(
                             modifier = Modifier
                                 .padding(24.dp)
-                                .width(140.dp)
+                                .width(100.dp)
                                 .border(
-                                    width = 2.dp,
-                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    width = 3.dp,
+                                    color = MaterialTheme.colorScheme.secondary,
                                     shape = CircleShape
                                 )
 
@@ -175,13 +177,13 @@ fun ListeningScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(0.5f)
+                        .weight(1f)
                         .align(Alignment.CenterHorizontally),
                     contentAlignment = Alignment.BottomCenter,
                 ) {
                     Text(
                         text = "Aquí verás el texto reconocido:",
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(vertical = 48.dp)
                     )
                 }
@@ -201,8 +203,8 @@ fun ListeningScreen(
                     Box(
                         modifier = Modifier
                             .border(
-                                width = 2.dp,
-                                color = MaterialTheme.colorScheme.primary,
+                                width = 3.dp,
+                                color = MaterialTheme.colorScheme.secondary,
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .padding(60.dp),

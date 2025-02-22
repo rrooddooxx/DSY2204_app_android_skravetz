@@ -1,6 +1,7 @@
 package com.nolineal.appskravetz.navigation
 
 import android.app.ActionBar
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,8 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nolineal.appskravetz.R
+import com.nolineal.appskravetz.navigation.Routes
 import com.nolineal.appskravetz.screens.LoadingScreen
 import com.nolineal.appskravetz.screens.private.DashboardScreen
+import com.nolineal.appskravetz.screens.private.HelpScreen
 import com.nolineal.appskravetz.screens.private.ListeningScreen
 import com.nolineal.appskravetz.screens.private.WritingScreen
 import com.nolineal.appskravetz.screens.public.ForgotPassword.ForgotPasswordScreen
@@ -34,7 +37,7 @@ fun AppNavigator(
     } else {
         if (loggedUser?.loggedUser == true) {
             actionBar?.hide()
-            AuthenticatedNavigation(authViewModel, actionBar)
+            AuthenticatedNavigation(authViewModel, actionBar, navController)
         } else {
             actionBar?.show()
             PublicNavigation(actionBar, authViewModel, navController)
@@ -46,7 +49,7 @@ fun AppNavigator(
 fun PublicNavigation(
     actionBar: ActionBar?,
     authViewModel: SharedAuthViewModel,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
@@ -100,10 +103,19 @@ fun AuthenticatedNavigation(
 
             ListeningScreen(navController, authViewModel)
         }
+        composable(Routes.HelpScreen) {
+            actionBar?.show()
+            actionBar?.setDisplayHomeAsUpEnabled(true)
+            actionBar?.setHomeAsUpIndicator(R.drawable.back_arrow2)
+            actionBar?.setHomeButtonEnabled(true)
+            actionBar?.setDisplayShowHomeEnabled(false)
+            HelpScreen(navController, authViewModel)
+        }
     }
 
     BackHandler(
         onBack = {
+            Log.d("AppNavigator", "BackHandler!!!!!!!!!!!!!")
             navController.navigateUp()
         },
         enabled = true

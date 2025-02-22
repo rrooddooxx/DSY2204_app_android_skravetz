@@ -1,6 +1,8 @@
 package com.nolineal.appskravetz.viewmodel
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +15,11 @@ import com.nolineal.appskravetz.domain.AuthViewModelException
 import com.nolineal.appskravetz.domain.LoginFormStates
 import com.nolineal.appskravetz.domain.RegisterUserDto
 import com.nolineal.appskravetz.domain.User
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class SharedAuthViewModel(
     private val firestore: FirebaseFirestore = Firebase.firestore,
@@ -50,7 +57,8 @@ class SharedAuthViewModel(
                                         firstName = doc["firstName"].toString(),
                                         lastNameFather = doc["lastNameFather"].toString(),
                                         lastNameMother = doc["lastNameMother"].toString(),
-                                        email = doc["email"].toString()
+                                        email = doc["email"].toString(),
+                                        uid = doc.id
                                     ),
                                 ),
                                 loggedUser = true
@@ -111,7 +119,8 @@ class SharedAuthViewModel(
                 firstName = newUser.firstName,
                 lastNameFather = newUser.lastNameFather,
                 lastNameMother = newUser.lastNameMother,
-                email = newUser.email
+                email = newUser.email,
+                uid = userId
             )
 
             firestore.collection(FIREBASE_USER_COLLECTION).document(userId)
@@ -209,5 +218,29 @@ class SharedAuthViewModel(
         )
         setLoginFormState(LoginFormStates.INITIAL)
         _isLoadingState.postValue(false)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @OptIn(ExperimentalUuidApi::class)
+    fun registerPrompt(prompt: String, inputMethod: String) {
+        val currentInstant = Instant.now()
+        val currentZonedDateTime = ZonedDateTime.ofInstant(currentInstant, ZoneId.systemDefault())
+
+        val requestMap = mapOf<String, String>(
+            Pair("input_method", inputMethod),
+            Pair("prompt", prompt),
+            Pair("user_id", _authState.value?.currentUser?.userData?.uid.toString()),
+            Pair("generate_at", currentZonedDateTime.toString())
+        )
+
+        firestore.collection("requests")
+            .document(Uuid.random().toString())
+            .set(requestMap)
+            .addOnSuccessListener {
+                Log.i("SharedAuthViewModel", "registerPrompt: Éxito en registro de prompt")
+            }
+            .addOnFailureListener {
+                Log.e("SharedAuthViewModel", "registerPrompt: Error en registro de prompt")
+            }
     }
 }

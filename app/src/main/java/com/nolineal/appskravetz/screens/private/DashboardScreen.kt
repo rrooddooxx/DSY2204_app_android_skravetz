@@ -38,12 +38,8 @@ fun DashboardScreen(
         authViewModel.logOut()
     }
 
-    fun navigateToWriting() {
-        navigation.navigate(route = Routes.WritingScreen)
-    }
-
-    fun navigateToListening() {
-        navigation.navigate(route = Routes.ListeningScreen)
+    fun navigate(route: String) {
+        navigation.navigate(route)
     }
 
     Column(
@@ -60,27 +56,37 @@ fun DashboardScreen(
         }
 
         Text(
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.Center,
-            text = "¡Bienvenido, ${currentUser.firstName} ${currentUser.lastNameFather}! \n" +
-                    "Tu correo es ${currentUser.email}"
+            text = "¡Bienvenido, ${currentUser.firstName} ${currentUser.lastNameFather}! \n\n" +
+                    "[${currentUser.email}]"
         )
         Spacer(modifier = Modifier.padding(16.dp))
 
         Button(
-            onClick = { navigateToWriting() }
+            onClick = { navigate(Routes.WritingScreen) },
+            modifier = Modifier.padding(8.dp)
         ) {
             Text("Escribir")
         }
 
         Button(
-            onClick = { navigateToListening() }
+            onClick = { navigate(Routes.ListeningScreen) },
+            modifier = Modifier.padding(8.dp)
         ) {
             Text("Hablar")
         }
 
         Button(
-            onClick = { logOutUser() }
+            onClick = { navigate(Routes.HelpScreen) },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text("Ayuda")
+        }
+
+        Button(
+            onClick = { logOutUser() },
+            modifier = Modifier.padding(8.dp)
         ) {
             Text("Cerrar Sesión")
         }

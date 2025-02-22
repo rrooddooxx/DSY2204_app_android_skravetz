@@ -5,4 +5,5 @@ data class User(
     val lastNameFather: String,
     val lastNameMother: String,
     val email: String,
+    val uid: String?
 )

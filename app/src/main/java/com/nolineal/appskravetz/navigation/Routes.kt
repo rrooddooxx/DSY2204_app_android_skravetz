@@ -7,4 +7,5 @@ object Routes {
     const val DashboardScreen = "dashboard"
     const val WritingScreen = "writing"
     const val ListeningScreen = "listening"
+    const val HelpScreen = "help"
 }
