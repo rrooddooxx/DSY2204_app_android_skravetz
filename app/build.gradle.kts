@@ -8,13 +8,13 @@ plugins {
 
 android {
     namespace = "com.nolineal.appskravetz"
-    compileSdk = 34
+    compileSdk = 35
     testOptions.unitTests.isIncludeAndroidResources = true
 
     defaultConfig {
         applicationId = "com.nolineal.appskravetz"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -50,9 +50,18 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.ktx.v1150)
+    implementation(libs.androidx.collection.ktx)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.reactivestreams.ktx)
+    implementation(libs.firebase.common.ktx)
+    implementation(libs.google.firebase.firestore.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -66,6 +75,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.ui.test.junit4.android)
+    implementation(libs.androidx.animation.core.android)
+    implementation(libs.androidx.animation.core.android)
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core.v520)
     testImplementation(libs.androidx.core.testing)

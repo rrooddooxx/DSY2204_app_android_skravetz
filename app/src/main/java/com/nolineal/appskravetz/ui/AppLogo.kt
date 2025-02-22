@@ -15,8 +15,8 @@ fun AppLogo(
         modifier = modifier
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo_app_calchonorarios),
-            contentDescription = "CalcHonorarios APP",
+            painter = painterResource(id = R.drawable.lazarillo_con_texto_header),
+            contentDescription = "Lazarillo Header",
         )
     }
 
